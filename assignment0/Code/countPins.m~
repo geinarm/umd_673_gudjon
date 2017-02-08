@@ -1,0 +1,33 @@
+
+I = imread('../Input/TestImgResized.jpg');
+[height, width, ~] = size(I);
+M = findPins(I);
+Pixels = reshape(I, [height*width, 3]);
+
+imshow(M);
+
+ClassRGB = {...
+    [1 0 0], ...
+    [0 1 0], ...
+    [0 0 1]};
+ClassName = {...
+    'Red', ...
+    'Green', ...
+    'Blue'};
+
+[Labels, numLabels] = bwlabel(M);
+classLabel = zeros(1,numLabels);
+for i = 1:numLabels
+    P = Pixels(find(Labels==i));
+    meanRGB = mean(P);
+    
+    minDist = inf;
+    minClass = 0;
+    for k = 1:length(ClassRGB)
+       rgb = ClassRGB(k);
+       dist = sum((meanRGB - rgb).^2);
+       if dist < minDist
+           d
+       end
+    end
+end
