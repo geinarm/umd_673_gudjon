@@ -51,7 +51,7 @@ for i = 1:length(EdgeIdx)
         end
 	end
     
-    if(pixelCount < 10)
+    if(pixelCount < 30)
        Segments(Segments==segmentId) = 0; 
     else
         segmentId = segmentId+1;
