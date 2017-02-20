@@ -32,8 +32,17 @@ end
 
 %H = calculateH(px2, py2, px1, py1);
 %H = inv(H);
-H = calculateH(px1, py1, px2, py2);
+H = calculateH(px2, py2, px1, py1);
 
+%tform = projective2d(H');
+%IProj = imwarp(I1, tform);
+
+tform = maketform('projective', H'); 
+imt = imtransform(I1,tform,'XData',[0 100],'YData',[0, 100]);
+
+imshow(IProj);
+
+%{
 figure
 imshow(I1); hold on;
 for i = 1:length(px2)
@@ -62,3 +71,4 @@ end
 
 figure
 imshow(I3);
+%}
