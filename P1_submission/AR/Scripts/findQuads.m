@@ -24,9 +24,11 @@ end
 
 function [ Quad_, LineMask_ ] = findSides( Quad, Lines, LineMask, k )
 
-    p = Quad.Lines(k-1).End;
-    r = Quad.Lines(k-1).Length/2;
-    d = Quad.Lines(k-1).GradientDirection;
+    lPrev = Quad.Lines(k-1);
+    p = lPrev.End;
+    r = lPrev.Length/3;
+    dir = lPrev.GradientDirection;
+    
     Quad_ = Quad;
     LineMask_ = LineMask;
     
@@ -38,8 +40,9 @@ function [ Quad_, LineMask_ ] = findSides( Quad, Lines, LineMask, k )
         LineMask_ = LineMask;
         Quad_ = Quad;
         l = Lines{i};
-        d2 = l.GradientDirection;
-        if(d2-d < 0 && d2-d > -180 || d2-d > 180)
+        da = angleDistance(dir, l.GradientDirection);
+        
+        if da < 10 || da > 150
            continue; 
         end
         
