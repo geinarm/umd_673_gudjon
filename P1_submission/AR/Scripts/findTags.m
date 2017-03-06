@@ -12,8 +12,13 @@ for i = 1:length(Quads)
     px2 = [1, 1, 0, 0];
     py2 = [1, 0, 0, 1];
 
-    H = calculateH(px2, py2, px1, py1);
-
+    try
+        H = calculateH(px2, py2, px1, py1);
+    catch err
+        fprintf('Faild homography\n');
+        continue;
+    end
+    
     tform = projective2d(H');
     ra = imref2d([32, 32],[0, 1],[0, 1]);
     Pattern = imwarp(Gray,tform, 'OutputView', ra);
@@ -53,6 +58,7 @@ for i = 1:length(Quads)
     
     %Correct homography to match orientation
     H = calculateH(px2, py2, Tag.Points(1,:), Tag.Points(2,:));
+    %H = H ./ H(3,3);
     
     %Decode ID
     b1 = sum(sum(Pattern(12:15, 12:15)))/16 >= 0.75;

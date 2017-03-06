@@ -4,7 +4,7 @@ close all;
 %I = imread('../Data/singleTag1.png');
 %I = imread('../Data/multipleTags3.png');
 %I = imread('../Data/apriltagrobots.jpg');
-I = imread('../Data/Tag2/70.jpg');
+I = imread('../Data/Tag2/1.jpg');
 
 I = imresize(I, 0.5);
 I = im2double(I);
@@ -24,8 +24,8 @@ length(Quads)
 figure
 labelTags(Tags, I);
 
-figure
-imshow(Tags{1}.Pattern);
+%figure
+%imshow(Tags{1}.Pattern);
 
 %{
 figure

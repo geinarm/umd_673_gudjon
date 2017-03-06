@@ -1,6 +1,7 @@
 function [ I ] = labelTags( Tags, I )
 %Draws anotations on an image
 
+hold off;
 imshow(I); hold on;
 for i = 1:length(Tags)
     t = Tags{i};
@@ -9,6 +10,7 @@ for i = 1:length(Tags)
 end
 hold off;
 
+set(gca,'position',[0 0 1 1],'units','normalized');
 F = getframe(gcf);
 [I, ~] = frame2im(F);
 

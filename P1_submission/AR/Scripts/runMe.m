@@ -1,6 +1,7 @@
 global Lena
 
 DataFolder = '../Data';
+OutputFolder = '../Output';
 
 Lena = imread([DataFolder, '/Lena.png']);
 Lena = im2double(Lena);
@@ -8,16 +9,24 @@ Lena = im2double(Lena);
 folders = {};
 data = dir(DataFolder);
 
-processFolder('../Data/Tag0', '../Output/Tag0');
+%processFolder('../Data/Tag2', '../Output/Tag2');
+%processFolder('../Data/multipleTags', '../Output/multipleTags');
 
-%{
+
 for i = 1:length(data)
     file = data(i);
     if file.isdir && ~strcmp(file.name, '.') && ~strcmp(file.name, '..')
-       folders{end+1} = [DataFolder, '/', file.name];
+       Input = [DataFolder, '/', file.name];
+       Output = [OutputFolder, '/', file.name];
+
+
+       if ~exist(Output, 'file')
+          mkdir(Output); 
+       end
+       processFolder(Input, Output);
     end
 end
-%}
+
 
 function [] = processFolder(Input, Output)
     global Lena
@@ -29,7 +38,7 @@ function [] = processFolder(Input, Output)
     
     TagVideoFrames = cell(1,120);
     LenaVideoFrames = cell(1,120);
-    %CubeVideoFrames = cell(1,120);
+    CubeVideoFrames = cell(1,120);
     
     i = 1;
     while exist([Input, '/', int2str(i), '.jpg'], 'file')
@@ -51,11 +60,15 @@ function [] = processFolder(Input, Output)
         M = doLena(Tags, I, Lena);
         LenaVideoFrames{i} = M;
         
+        M = doCube(I, Tags);
+        CubeVideoFrames{i} = M;
+        
         i = i+1;
     end
     
     createVideo(TagVideoFrames, [Output, '/', 'detected.avi']);
     createVideo(LenaVideoFrames, [Output, '/', 'homography.avi']);
+    createVideo(CubeVideoFrames, [Output, '/', 'AR.avi']);
     
 end
 
@@ -68,17 +81,3 @@ function [] = createVideo(Frames, name)
     end
     close(video);
 end
-
-%v = VideoReader('../Data/Tag0/Tag0.mp4')
-%I = readFrame(v);
-%imshow(I);
-
-%{
-video = VideoReader(videoFile);
-k = 1;
-while hasFrame(video)
-  I = readFrame(video); 
-  imwrite(I, [DataFolder, '/', file.name, '/', int2str(k), '.jpg']);
-  k = k+1;
-end
-%}
