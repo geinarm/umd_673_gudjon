@@ -10,9 +10,9 @@ folders = {};
 data = dir(DataFolder);
 
 %processFolder('../Data/Tag2', '../Output/Tag2');
-%processFolder('../Data/multipleTags', '../Output/multipleTags');
+processFolder('../Data/multipleTags', '../Output/multipleTags');
 
-
+%{
 for i = 1:length(data)
     file = data(i);
     if file.isdir && ~strcmp(file.name, '.') && ~strcmp(file.name, '..')
@@ -26,7 +26,7 @@ for i = 1:length(data)
        processFolder(Input, Output);
     end
 end
-
+%}
 
 function [] = processFolder(Input, Output)
     global Lena
